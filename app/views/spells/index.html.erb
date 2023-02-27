@@ -1,0 +1,42 @@
+<p id="notice"><%= flash[:notice] %></p>
+
+<h1>All Spells</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= link_to 'Spellname', spells_path(order_by: 'name') %></th>
+      <th><%= link_to 'Level', spells_path(order_by: 'level') %></th>
+      <th><%= link_to 'School', spells_path(order_by: 'school') %></th>
+      <th><%= link_to 'Classes', spells_path(order_by: 'classes') %></th>
+      <th><%= link_to 'Concentration', spells_path(order_by: 'concentration') %></th>
+        <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @spells.each do |spell| %>
+      <tr>
+        <td><%= link_to spell.name, spell %></td>
+        <td><%= spell.level %></td>
+        <td><%= spell.school.name %></td>
+        <td><%= spell.role_classes_as_string %></td>
+        <td><%= spell.concentration %></td>
+        <td><%= link_to 'Show', spell %></td>
+        <td><%= link_to 'Edit', edit_spell_path(spell) %></td>
+        <td><%= form_with model: spell, method: :delete, local: true do |f| %>
+            <%= f.submit 'Delete' %>
+            <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+
+<p>
+<%= link_to 'New Spell', new_spell_path %> |
+<%= link_to "Home", root_path %>    
+</p>

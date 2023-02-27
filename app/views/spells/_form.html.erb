@@ -1,0 +1,56 @@
+
+<%= form_with(model: spell, local: true) do |form| %>
+  <% if spell.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(spell.errors.count, "error") %> prohibited this spell from being saved:</h2>
+
+      <ul>
+        <% spell.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :level, checked: true %>
+    <%= form.select :level, [ 0,1,2,3,4,5,6,7,8,9 ] %>  
+  </div>
+
+  <div class="field">
+    <%= form.label :school_id %>
+    <%= form.select(:school_id, School.to_nested_array_for_select, { prompt: 'Select a School' }) %>      
+  </div>
+   
+  <div class="required">
+    <%= form.label :role_classes, 'Classes' %>
+    <%# form.collection_check_boxes :role_class_ids, RoleClass.all, :id, :name %>
+    <%= form.collection_check_boxes( :role_class_ids, RoleClass.all, :id, :name) do |b| %>
+    <%=   b.check_box style: "display: inline"%>
+    <%=   b.label style: "display: inline" %>
+    <%  end %>
+  </div>
+
+
+  <div class="field">
+    <%= form.label :concentration %>
+      <%= form.radio_button(:concentration, "no", checked: true) %>
+      <%= label(:spell_concentration, :no, "no") %>
+      <%= form.radio_button(:concentration, "yes") %>
+      <%= label(:spell_concentration, :yes, "yes") %>
+</div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
